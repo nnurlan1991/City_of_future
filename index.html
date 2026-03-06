@@ -65,33 +65,79 @@
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 18px 60px;
-    background: rgba(5,10,18,0.85);
-    backdrop-filter: blur(12px);
+    padding: 0 60px;
+    height: 60px;
+    background: rgba(5,10,18,0.92);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid rgba(0,229,255,0.1);
   }
   .nav-logo {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--cyan);
     letter-spacing: 0.15em;
     text-transform: uppercase;
+    flex-shrink: 0;
   }
   .nav-links {
-    display: flex; gap: 36px; list-style: none;
+    display: flex; gap: 4px; list-style: none;
   }
   .nav-links a {
-    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--muted); text-decoration: none;
-    transition: color 0.3s;
+    transition: color 0.25s, background 0.25s;
     font-family: 'JetBrains Mono', monospace;
+    padding: 6px 12px;
+    border-radius: 2px;
+    white-space: nowrap;
   }
-  .nav-links a:hover { color: var(--cyan); }
+  .nav-links a:hover { color: var(--white); background: rgba(0,229,255,0.07); }
+  .nav-links a.active { color: var(--cyan); background: rgba(0,229,255,0.1); }
   .nav-year {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: var(--gold);
+    font-size: 10px; color: var(--gold);
     letter-spacing: 0.2em;
+    flex-shrink: 0;
   }
+  /* HAMBURGER */
+  .nav-burger {
+    display: none;
+    flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 4px;
+    background: none; border: none;
+  }
+  .nav-burger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--cyan);
+    transition: all 0.3s ease;
+    border-radius: 1px;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  /* MOBILE DROPDOWN */
+  .nav-mobile {
+    display: none;
+    position: fixed;
+    top: 60px; left: 0; right: 0;
+    background: rgba(5,10,18,0.97);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(0,229,255,0.12);
+    flex-direction: column;
+    z-index: 99;
+    padding: 12px 0;
+  }
+  .nav-mobile.open { display: flex; }
+  .nav-mobile a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    padding: 14px 24px;
+    border-bottom: 1px solid rgba(0,229,255,0.05);
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-mobile a:hover,
+  .nav-mobile a.active { color: var(--cyan); background: rgba(0,229,255,0.05); }
 
   /* HERO */
   #hero {
@@ -800,12 +846,91 @@
     font-size: 9px;
   }
 
+
+  /* ROADMAP SECTION */
+  .rm-phases {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    position: relative;
+  }
+  .rm-phase {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .rm-phase:hover { transform: translateY(-4px); }
+  .rm-dot-row {
+    display: flex; align-items: center;
+    margin-bottom: 20px;
+  }
+  .rm-dot {
+    width: 60px; height: 60px; flex-shrink: 0;
+    border-radius: 50%;
+    border: 2px solid var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg2);
+    transition: all 0.35s;
+    position: relative;
+    z-index: 1;
+  }
+  .rm-dot span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px; color: var(--muted);
+    transition: color 0.35s;
+    line-height: 1;
+  }
+  .rm-connector {
+    flex: 1; height: 1px;
+    background: linear-gradient(to right, rgba(0,229,255,0.3), rgba(0,229,255,0.05));
+    margin-left: -1px;
+  }
+  .rm-connector--last { background: transparent; }
+  .rm-phase:hover .rm-dot,
+  .rm-active .rm-dot {
+    border-color: var(--cyan);
+    background: rgba(0,229,255,0.08);
+    box-shadow: 0 0 20px rgba(0,229,255,0.3);
+  }
+  .rm-phase:hover .rm-dot span,
+  .rm-active .rm-dot span { color: var(--white); }
+  .rm-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px; color: var(--white);
+    line-height: 1; margin-bottom: 6px;
+  }
+  .rm-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: var(--cyan);
+    letter-spacing: 0.3em; margin-bottom: 20px;
+  }
+  .rm-active .rm-tag { color: var(--gold); }
+  .rm-list {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
+  }
+  .rm-list li {
+    font-size: 13px; color: rgba(232,240,254,0.5);
+    padding: 10px 14px;
+    border-left: 2px solid transparent;
+    line-height: 1.5;
+    transition: all 0.25s;
+    background: rgba(0,0,0,0.2);
+  }
+  .rm-phase:hover .rm-list li,
+  .rm-active .rm-list li {
+    border-left-color: var(--cyan);
+    background: rgba(0,229,255,0.04);
+    color: rgba(232,240,254,0.85);
+  }
+  .rm-active .rm-list li { border-left-color: var(--gold); }
+
   /* ══════════════════════════════════════
      TABLET  (≤ 900px)
   ══════════════════════════════════════ */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
+    .nav-burger { display: flex; }
+    nav { padding: 0 20px; }
     section, #hero { padding: 80px 32px; }
     #team { padding: 80px 32px !important; }
     .diagnosis-grid { grid-template-columns: 1fr 1fr; }
@@ -814,6 +939,8 @@
     .econ-grid { grid-template-columns: 1fr; }
     .roadmap-phases { grid-template-columns: 1fr; }
     .roadmap-line { display: none; }
+    .rm-phases { grid-template-columns: 1fr; gap: 20px; }
+    .rm-connector { display: none; }
     .team-grid { grid-template-columns: repeat(3, 1fr); }
     footer { flex-direction: column; gap: 16px; text-align: center; }
   }
@@ -824,7 +951,7 @@
   @media (max-width: 600px) {
 
     /* NAV */
-    nav { padding: 14px 18px; }
+
     .nav-logo { font-size: 10px; }
     .nav-year { font-size: 10px; }
     .cursor-glow { display: none; }
@@ -941,6 +1068,17 @@
     .team-mentor-name { font-size: 28px; }
     .team-mentor-title { font-size: 12px; line-height: 1.5; }
 
+    /* ROADMAP */
+    .rm-phases {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .rm-connector { display: none; }
+    .rm-dot { width: 50px; height: 50px; }
+    .rm-dot span { font-size: 17px; }
+    .rm-year { font-size: 32px; }
+    .rm-list li { font-size: 12px; padding: 9px 12px; }
+
     /* TEAM — GRID */
     .team-grid {
       grid-template-columns: repeat(2, 1fr);
@@ -978,13 +1116,27 @@
 <nav>
   <div class="nav-logo">Smart Governance · KZ</div>
   <ul class="nav-links">
+    <li><a href="#hero">Главная</a></li>
     <li><a href="#diagnosis">Диагноз</a></li>
     <li><a href="#directions">Направления</a></li>
     <li><a href="#roadmap">Дорожная карта</a></li>
     <li><a href="#economics">Эффект</a></li>
+    <li><a href="#team">Команда</a></li>
   </ul>
   <div class="nav-year">Астана · 2026</div>
+  <button class="nav-burger" id="navBurger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<!-- MOBILE NAV DROPDOWN -->
+<div class="nav-mobile" id="navMobile">
+  <a href="#hero" onclick="closeMobileNav()">Главная</a>
+  <a href="#diagnosis" onclick="closeMobileNav()">Диагноз</a>
+  <a href="#directions" onclick="closeMobileNav()">Направления</a>
+  <a href="#roadmap" onclick="closeMobileNav()">Дорожная карта</a>
+  <a href="#economics" onclick="closeMobileNav()">Эффект</a>
+  <a href="#team" onclick="closeMobileNav()">Команда</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -1218,6 +1370,69 @@
   </div>
 </section>
 
+<!-- ROADMAP -->
+<section id="roadmap" style="background:var(--bg2);">
+  <div class="section-label"><span class="num">03</span> Дорожная карта</div>
+  <h2>ОТ ПИЛОТА<br><span style="color:var(--cyan)">К СИСТЕМЕ</span></h2>
+
+  <div class="rm-phases">
+
+    <div class="rm-phase fade-up" onclick="togglePhase(this)">
+      <div class="rm-dot-row">
+        <div class="rm-dot">
+          <span>26</span>
+        </div>
+        <div class="rm-connector"></div>
+      </div>
+      <div class="rm-year">2026</div>
+      <div class="rm-tag">ПИЛОТ</div>
+      <ul class="rm-list">
+        <li>Единый Data Lake + аудит IoT-датчиков</li>
+        <li>Компьютерное зрение для мониторинга благоустройства</li>
+        <li>Предиктивный мониторинг дорог на 200 км</li>
+        <li>Пилот V2X на 10 перекрёстках Астаны</li>
+        <li>Цифровой контур WIM от Хоргоса</li>
+      </ul>
+    </div>
+
+    <div class="rm-phase fade-up rm-active" onclick="togglePhase(this)">
+      <div class="rm-dot-row">
+        <div class="rm-dot">
+          <span>27</span>
+        </div>
+        <div class="rm-connector"></div>
+      </div>
+      <div class="rm-year">2027</div>
+      <div class="rm-tag">МАСШТАБ</div>
+      <ul class="rm-list">
+        <li>LCC-контракты на 1 000 км дорог I–II категорий</li>
+        <li>Интеграция MaaS-платформы</li>
+        <li>Запуск Data Marketplace</li>
+        <li>Нормативное закрепление механизма КРТ</li>
+        <li>Первые пилоты UAM для МЧС и санавиации</li>
+      </ul>
+    </div>
+
+    <div class="rm-phase fade-up" onclick="togglePhase(this)">
+      <div class="rm-dot-row">
+        <div class="rm-dot">
+          <span>28</span>
+        </div>
+        <div class="rm-connector rm-connector--last"></div>
+      </div>
+      <div class="rm-year">2028</div>
+      <div class="rm-tag">СИСТЕМА</div>
+      <ul class="rm-list">
+        <li>EPCM+LCC с IoT-верификацией по всей сети</li>
+        <li>V2X-стандарт на коридоре Западная Европа — Западный Китай</li>
+        <li>Единый стандарт машиночитаемых данных КРТ</li>
+        <li>Экономия OPEX акиматов на 30–40%</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
 <!-- INVISIBLE STATE CLOSING -->
 <section id="invisible">
   <div class="invisible-quote fade-up">
@@ -1411,11 +1626,39 @@ function toggleDir(card) {
   if (!wasActive) card.classList.add('active');
 }
 
-// PHASE TOGGLE
+// ROADMAP PHASE TOGGLE
 function togglePhase(phase) {
-  document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
-  phase.classList.add('active');
+  document.querySelectorAll('.rm-phase').forEach(p => p.classList.remove('rm-active'));
+  phase.classList.add('rm-active');
 }
+
+// HAMBURGER MENU
+const burger = document.getElementById('navBurger');
+const mobileNav = document.getElementById('navMobile');
+burger.addEventListener('click', () => {
+  burger.classList.toggle('open');
+  mobileNav.classList.toggle('open');
+});
+function closeMobileNav() {
+  burger.classList.remove('open');
+  mobileNav.classList.remove('open');
+}
+
+// NAV ACTIVE STATE on scroll
+const sections = ['hero','diagnosis','directions','roadmap','economics','team'];
+const navLinks = document.querySelectorAll('.nav-links a, .nav-mobile a');
+function setActive() {
+  let current = 'hero';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && window.scrollY >= el.offsetTop - 100) current = id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}
+window.addEventListener('scroll', setActive, { passive: true });
+setActive();
 
 // AUTO-ACTIVATE first direction on scroll
 const dirObserver = new IntersectionObserver((entries) => {
@@ -1433,4 +1676,4 @@ const dirGrid = document.querySelector('.directions-grid');
 if (dirGrid) dirObserver.observe(dirGrid);
 </script>
 </body>
-</html>
+  </html>
